@@ -54,20 +54,22 @@
 <div style="display: flex; flex-direction: row; text-align: center; justify-content:center; padding-top: 60px; background-color: #fafafa">
     <!-- 왼쪽 -->
     <div style="width: 500px;height: 1000px; margin-right: 300px">
+        <!-- 피드 박스 -->
+        {% for feed in feeds %}
         <div style="border: solid 1px lightgray; background-color: white">
             <div style="display: flex; flex-direction: row; align-items: center; margin: 10px">
                 <div class="box" style="width: 35px; height: 35px">
                     <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
+                         src="{{ feed.profile_image }}">
                 </div>
                 <div style="padding-left: 8px">
-                    navyyn__
+                    {{ feed.user_id }}
                 </div>
             </div>
 
             <div>
                 <img style="width: 100%"
-                     src="https://www.lottehotel.com/content/dam/lotte-hotel/lotte/jeju/overview/introduction/g-0807.jpg.thumb.768.768.jpg">
+                     src="{{ feed.image }}">
             </div>
 
             <!-- 이미지 밑 아이콘 -->
@@ -84,8 +86,8 @@
 
             <!-- 아이콘 밑 -->
             <div style="text-align: left; padding-left: 12px">
-                <div style="font-size: 14px"> 춘식이 <b>외 19명</b>이 좋아합니다.</div>
-                <div style="font-size: 16px"><b>navyyn__</b> 요즘에 해외여행을 못 가니 제주 여행이라도</div>
+                <div style="font-size: 14px"> 춘식이 <b>외 {{ feed.like_count }}명</b>이 좋아합니다.</div>
+                <div style="font-size: 16px"><b>{{ feed.user_id }}</b> {{ feed.content }}</div>
                 <div style="font-size: 14px"><b> su.napshot </b> 나도 제주도 가고 싶다!</div>
                 <div style="font-size: 14px"><b> estonuncaeseso </b> 야호!!!</div>
             </div>
@@ -95,6 +97,7 @@
                        placeholder="댓글 달기.."/>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- 오른쪽 -->
