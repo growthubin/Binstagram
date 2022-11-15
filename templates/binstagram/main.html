@@ -13,6 +13,9 @@
             href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
             rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
     <title>Hello, world!</title>
 
     <style>
@@ -29,6 +32,33 @@
             object-fit: cover;
         }
 
+        .modal_overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+        }
+
+        .modal_window {
+            background: white;
+            backdrop-filter: blur(13.5px);
+            -webkit-backdrop-filter: blur(13.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 800px;
+            height: 600px;
+            position: relative;
+            padding: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -43,7 +73,7 @@
         <div>
             <span class="material-icons"> home </span>
             <span class="material-icons"> send </span>
-            <span class="material-icons"> add_box </span>
+            <span id="nav_bar_add_box" class="material-icons"> add_box </span>
             <span class="material-icons-outlined"> explore </span>
             <span class="material-icons-outlined"> favorite_border </span>
         </div>
@@ -56,47 +86,47 @@
     <div style="width: 500px;height: 1000px; margin-right: 300px">
         <!-- 피드 박스 -->
         {% for feed in feeds %}
-        <div style="border: solid 1px lightgray; background-color: white">
-            <div style="display: flex; flex-direction: row; align-items: center; margin: 10px">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="{{ feed.profile_image }}">
+            <div style="border: solid 1px lightgray; background-color: white">
+                <div style="display: flex; flex-direction: row; align-items: center; margin: 10px">
+                    <div class="box" style="width: 35px; height: 35px">
+                        <img class="profile"
+                             src="{{ feed.profile_image }}">
+                    </div>
+                    <div style="padding-left: 8px">
+                        {{ feed.user_id }}
+                    </div>
                 </div>
-                <div style="padding-left: 8px">
-                    {{ feed.user_id }}
-                </div>
-            </div>
 
-            <div>
-                <img style="width: 100%"
-                     src="{{ feed.image }}">
-            </div>
-
-            <!-- 이미지 밑 아이콘 -->
-            <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 5px 10px">
                 <div>
-                    <span class="material-icons-outlined"> favorite_border </span>
-                    <span class="material-icons-outlined"> mode_comment </span>
-                    <span class="material-icons-outlined"> send </span>
+                    <img style="width: 100%"
+                         src="{{ feed.image }}">
                 </div>
-                <div>
-                    <span class="material-icons-outlined"> bookmark_border </span>
-                </div>
-            </div>
 
-            <!-- 아이콘 밑 -->
-            <div style="text-align: left; padding-left: 12px">
-                <div style="font-size: 14px"> 춘식이 <b>외 {{ feed.like_count }}명</b>이 좋아합니다.</div>
-                <div style="font-size: 16px"><b>{{ feed.user_id }}</b> {{ feed.content }}</div>
-                <div style="font-size: 14px"><b> su.napshot </b> 나도 제주도 가고 싶다!</div>
-                <div style="font-size: 14px"><b> estonuncaeseso </b> 야호!!!</div>
+                <!-- 이미지 밑 아이콘 -->
+                <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 5px 10px">
+                    <div>
+                        <span class="material-icons-outlined"> favorite_border </span>
+                        <span class="material-icons-outlined"> mode_comment </span>
+                        <span class="material-icons-outlined"> send </span>
+                    </div>
+                    <div>
+                        <span class="material-icons-outlined"> bookmark_border </span>
+                    </div>
+                </div>
+
+                <!-- 아이콘 밑 -->
+                <div style="text-align: left; padding-left: 12px">
+                    <div style="font-size: 14px"> 춘식이 <b>외 {{ feed.like_count }}명</b>이 좋아합니다.</div>
+                    <div style="font-size: 16px"><b>{{ feed.user_id }}</b> {{ feed.content }}</div>
+                    <div style="font-size: 14px"><b> su.napshot </b> 나도 제주도 가고 싶다!</div>
+                    <div style="font-size: 14px"><b> estonuncaeseso </b> 야호!!!</div>
+                </div>
+                <hr style="margin: 5px 0 0">
+                <div>
+                    <input type="text" class="form-control" style="box-shadow: none; border: none; outline: none"
+                           placeholder="댓글 달기.."/>
+                </div>
             </div>
-            <hr style="margin: 5px 0 0">
-            <div>
-                <input type="text" class="form-control" style="box-shadow: none; border: none; outline: none"
-                       placeholder="댓글 달기.."/>
-            </div>
-        </div>
         {% endfor %}
     </div>
 
@@ -231,7 +261,128 @@
 </div>
 
 
+<!-- 첫번째 모달 -->
+<div id="first_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 40px; background:gray">
+                &nbsp;
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div>
+                <span class="material-icons-outlined"> close </span>
+            </div>
+        </div>
+
+        <div class="img_upload_space" style="border-top: solid 1px gray; width: 778px; height: 540px; margin-top: 10px">
+        </div>
+    </div>
+</div>
+
+<!-- 두번째 모달 -->
+<div id="second_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 40px; background:gray">
+                &nbsp;
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div>
+                <span class="material-icons-outlined"> close </span>
+            </div>
+        </div>
+
+        <div style="border-top: solid 1px gray; display: flex; flex-direction: row; margin-top: 10px">
+            <div class="img_upload_space" style="width: 500px; height: 540px">
+            </div>
+            <div style="border-left: solid 1px gray">
+                <div>
+                    <textarea class="form-control" style="width: 276px; height: 400px" id="exampleFormControlTextarea1" rows="5"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" style="width: 100%">
+                    공유하기
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <!-- Optional JavaScript; choose one of the two! -->
+<!-- $('') 선택자로 특정 코드에 이벤트 함수 설정 가능 -->
+<script>
+    $('#nav_bar_add_box').click(function () {
+        $('#first_modal').css({
+            display: 'flex'
+        });
+        $('body').css({
+            overflow: 'hidden'
+        });
+    });
+
+    $('.img_upload_space')
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
+
+    function dragOver(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.type == "dragover") {
+            $(e.target).css({
+                "background-color": "black",
+                "outline-offset": "-20px"
+            });
+        } else {
+            $(e.target).css({
+                "background-color": "orange",
+                "outline-offset": "-10px"
+            });
+        }
+    }
+
+    function uploadFiles(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        e.dataTransfer = e.originalEvent.dataTransfer; //2
+        var files = e.target.files || e.dataTransfer.files;
+
+        console.log("뭔가 파일 올렸네?" + files[0].name);
+
+        if (files.length > 1) {
+            alert('하나만 올려라.');
+            return;
+        }
+
+        if (files[0].type.match(/image.*/)) {
+
+            $('#first_modal').css({
+                display: 'none'
+            });
+            $('#second_modal').css({
+                display: 'flex'
+            });
+
+            $('.img_upload_space').css({
+                "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+                "outline": "none",
+                "background-size": "100%",
+                "background-repeat": "no-repeat",
+                "background-position": "center"
+            });
+        } else {
+            alert('이미지가 아닙니다.');
+            return;
+        }
+    }
+</script>
+
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
