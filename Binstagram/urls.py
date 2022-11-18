@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import Sub
-from content.views import Main
+from content.views import Main, UploadFeed
 
 urlpatterns = [
     path("admin/", admin.site.urls),  # 127.0.0.1 뒤에 admin을 치면, 뒤에 있는 거 실행
-    path('', Main.as_view())  # 아무것도 안 치면 Sub 클래스를 view로 사용하겠다.
+    path('', Main.as_view()),  # 아무것도 안 치면 Sub 클래스를 view로 사용하겠다.
+    path('content/upload', UploadFeed.as_view())
 ]
