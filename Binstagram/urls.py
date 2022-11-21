@@ -14,16 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from .views import Sub
-from content.views import Main, UploadFeed
+from django.urls import path, include
+from content.views import Main
 from .settings import MEDIA_ROOT, MEDIA_URL
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),  # 127.0.0.1 뒤에 admin을 치면, 뒤에 있는 거 실행
-    path('main/', Main.as_view()),  # 아무것도 안 치면 Sub 클래스를 view로 사용하겠다.
-    path('content/upload', UploadFeed.as_view())
+    path('', Main.as_view()),  # 아무것도 안 치면 Main 클래스를 view로 사용하겠다.
+    path('content/', include('content.urls')),
+    path('user/', include('user.urls'))
 ]
 
 # 유저가 업로드하여 media에 들어간 파일을 조회하기 위해 필요한 코드
