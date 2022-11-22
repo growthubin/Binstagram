@@ -1,8 +1,12 @@
+import os
+from uuid import uuid4
+
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User
 from django.contrib.auth.hashers import make_password
+from Binstagram.settings import MEDIA_ROOT
 
 # Create your views here.
 class Join(APIView):
@@ -53,3 +57,26 @@ class LogOut(APIView):
     def get(self, request):
         request.session.flush()  # 세션 clear 후 delete
         return render(request, "user/login.html")
+
+
+class UploadProfile(APIView):
+    def post(self, request):
+        # 일단 파일 불러와
+        file = request.FILES['file']
+        email = request.data.get('email')
+
+        uuid_name = uuid4().hex  # 랜덤하게 이미지 파일명 재생성
+        save_path = os.path.join(MEDIA_ROOT, uuid_name)  # 두 가지 path 더하기 ~/media/uuidsjfksjdkfjsf
+
+        with open(save_path, 'wb+') as destination:  # 파일 열어서 저장하는 코드
+            for chunk in file.chunks():
+                destination.write(chunk)
+
+        profile_image = uuid_name
+
+        # DB에 접근해 사용자(객체) 정보(프로필 이미지) 수정
+        user = User.objects.filter(email=email).first()
+        user.profile_image = profile_image
+        user.save()
+
+        return Response(status=200)
