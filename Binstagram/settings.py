@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "content",   # 내가 이런 앱 추가했어~
-    "user",
     "Binstagram",
+    "user",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +127,6 @@ MEDIA_URL = '/media/'  # 항상 / 로 끝나도록 설정
 # MEDIA_URL = 'http://static.myservice.com/media/' 다른 서버로 media 파일 복사시
 # 업로드 된 파일을 저장할 디렉토리 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 커스텀 유저 모델 사용
+AUTH_USER_MODEL = "user.User"

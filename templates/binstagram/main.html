@@ -63,7 +63,6 @@
     </style>
 </head>
 <body>
-
 <!-- 내비 바 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed; width: 100%">
     <div class="container-fluid" style="justify-content: space-between; flex-wrap: nowrap; min-width: 1000px">
@@ -80,7 +79,6 @@
         </div>
     </div>
 </nav>
-
 
 <div style="display: flex; flex-direction: row; text-align: center; justify-content:center; padding-top: 60px; background-color: #fafafa">
     <!-- 왼쪽 -->
@@ -141,10 +139,10 @@
             </div>
             <div style="margin-left: 10px; text-align: left">
                 <div style="font-weight: bold">
-                    navyyn__
+                    {{ user.nickname }}
                 </div>
                 <div style="color: gray">
-                    Subin Park
+                    {{ user.name }}
                 </div>
             </div>
         </div>
@@ -361,7 +359,7 @@
             },
             complete: function () {
                 console.log("완료")
-                location.replace('/main');
+                location.replace('');
             }
         });
     });
