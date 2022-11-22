@@ -84,7 +84,9 @@
 
                 <ul class="dropdown-menu" style="left:-158px" aria-labelledby="dropdownMenuLink">
                     <li><a class="dropdown-item" href="#">프로필</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" href="/user/logout">로그아웃</a></li>
                 </ul>
             </div>
@@ -93,181 +95,26 @@
 </nav>
 
 <div style="display: flex; flex-direction: row; text-align: center; justify-content:center; padding-top: 60px; background-color: #fafafa">
-    <!-- 왼쪽 -->
-    <div style="width: 500px;height: 1000px; margin-right: 300px">
-        <!-- 피드 박스 -->
-        {% for feed in feeds %}
-            <div style="border: solid 1px lightgray; background-color: white">
-                <div style="display: flex; flex-direction: row; align-items: center; margin: 10px">
-                    <div class="box" style="width: 35px; height: 35px">
-                        <img class="profile"
-                             src="{{ feed.profile_image }}">
-                    </div>
-                    <div style="padding-left: 8px">
-                        {{ feed.user_id }}
-                    </div>
-                </div>
-
-                <div>
-                    <!-- uuid에 media 경로 붙여주는 코드 -->
-                    <img style="width: 100%"
-                         src="{% get_media_prefix %}{{ feed.image }}">
-                </div>
-
-                <!-- 이미지 밑 아이콘 -->
-                <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 5px 10px">
-                    <div>
-                        <span class="material-icons-outlined"> favorite_border </span>
-                        <span class="material-icons-outlined"> mode_comment </span>
-                        <span class="material-icons-outlined"> send </span>
-                    </div>
-                    <div>
-                        <span class="material-icons-outlined"> bookmark_border </span>
-                    </div>
-                </div>
-
-                <!-- 아이콘 밑 -->
-                <div style="text-align: left; padding-left: 12px">
-                    <div style="font-size: 14px"> 춘식이 <b>외 {{ feed.like_count }}명</b>이 좋아합니다.</div>
-                    <div style="font-size: 16px"><b>{{ feed.user_id }}</b> {{ feed.content }}</div>
-                    <div style="font-size: 14px"><b> su.napshot </b> 나도 제주도 가고 싶다!</div>
-                    <div style="font-size: 14px"><b> estonuncaeseso </b> 야호!!!</div>
-                </div>
-                <hr style="margin: 5px 0 0">
-                <div>
-                    <input type="text" class="form-control" style="box-shadow: none; border: none; outline: none"
-                           placeholder="댓글 달기.."/>
-                </div>
-            </div>
-        {% endfor %}
+    <div style="padding: 20px 60px">
+        <div class="box" style="width: 175px; height: 175px">
+            <img class="profile"
+                 src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
+        </div>
     </div>
+    <div style="text-align: left">
+        <div style="display: flex; flex-direction: row; margin: 20px 0px">
+            <div style="font-size: 26px">
+                {{ user.nickname }}
+            </div>
+            <button style="margin: 0 30px"> 프로필 사진 편집 </button>
+            <span class="material-icons-outlined">settings</span>
+        </div>
 
-    <!-- 오른쪽 -->
-    <div style="width: 400px;height: 1000px; position: fixed; left: 62%">
-        <div style="display: flex; flex-direction: row; align-items: center; margin: 10px">
-            <div class="box" style="width: 65px; height: 65px">
-                <img class="profile"
-                     src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-            </div>
-            <div style="margin-left: 10px; text-align: left">
-                <div style="font-weight: bold">
-                    {{ user.nickname }}
-                </div>
-                <div style="color: gray">
-                    {{ user.name }}
-                </div>
-            </div>
+        <div style="margin-bottom: 20px">
+            게시물 내 게시물 건수 팔로워 111 팔로잉 174
         </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 15px">
-            <div style="font-weight: bold; color: gray">
-                회원님을 위한 추천
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: black; font-weight: bold">모두 보기</a>
-            </div>
-        </div>
-        <!-- 추천인 프로필 -->
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 5px">
-            <div style="display: flex; flex-direction: row">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold; font-size: 14px">
-                        asdfg
-                    </div>
-                    <div style="color: gray">
-                        나랑 같이 치킨 먹음
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: deepskyblue; font-weight: bold">팔로우</a>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 5px">
-            <div style="display: flex; flex-direction: row">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold; font-size: 14px">
-                        asdfg
-                    </div>
-                    <div style="color: gray">
-                        나랑 같이 치킨 먹음
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: deepskyblue; font-weight: bold">팔로우</a>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 5px">
-            <div style="display: flex; flex-direction: row">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold; font-size: 14px">
-                        asdfg
-                    </div>
-                    <div style="color: gray">
-                        나랑 같이 치킨 먹음
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: deepskyblue; font-weight: bold">팔로우</a>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 5px">
-            <div style="display: flex; flex-direction: row">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold; font-size: 14px">
-                        asdfg
-                    </div>
-                    <div style="color: gray">
-                        나랑 같이 치킨 먹음
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: deepskyblue; font-weight: bold">팔로우</a>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 5px">
-            <div style="display: flex; flex-direction: row">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://phinf.pstatic.net/contact/20220227_81/1645941346795URBHu_JPEG/profileImage.jpg?type=s160">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold; font-size: 14px">
-                        asdfg
-                    </div>
-                    <div style="color: gray">
-                        나랑 같이 치킨 먹음
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: deepskyblue; font-weight: bold">팔로우</a>
-            </div>
-        </div>
-        <div style="margin-top: 30px; font-size: 14px; color: gray; text-align: left">
-            소개 도움말 홍보 센터 API 제품 정보 <br>
-            개인정보처리방침 약관 위치 인기 계정 해시태그 페이스북 언어
-        </div>
-        <div style="margin-top: 15px; font-size: 14px; color: gray; text-align: left">
-            2021 BINSTAGRAM FROM SUBIN
+        <div>
+            <b>{{ user.name }}</b>
         </div>
     </div>
 </div>
@@ -288,7 +135,8 @@
             </div>
         </div>
 
-        <div class="img_upload_space" style="border-top: solid 1px gray; width: 778px; height: 540px; margin-top: 10px">
+        <div class="img_upload_space"
+             style="border-top: solid 1px gray; width: 778px; height: 540px; margin-top: 10px">
         </div>
     </div>
 </div>

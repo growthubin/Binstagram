@@ -12,16 +12,13 @@ class Main(APIView):  # Sub 클래스
     def get(self, request):  # get으로 호출하면 get 함수 실행
         feed_list = Feed.objects.all().order_by('-id')  # select * from content_feed;
 
-        print('로그인한 사용자 :', request.session['email'])
-        email = request.session['email']
-
+        email = request.session.get('email', None)
         if email is None:
-            return render(request, "user/login.html")
+            return render(request, "user/login.html")  # email이 없으면(로그아웃 상태면) 메인 안 보여주고 login 페이지만 보여줌
 
         user = User.objects.filter(email=email).first()
-
         if user is None:
-            return render(request, "user/login.html")
+            return render(request, "user/login.html")  # 사용자 정보가 없어도 로그인 페이지만 보여줌(다시 로그인 시도해라)
 
         # feeds <- main.html 화면에 보여줄 딕셔너리의 key
         return render(request, "binstagram/main.html", context=dict(feeds=feed_list, user=user))
@@ -48,3 +45,16 @@ class UploadFeed(APIView):
         Feed.objects.create(image=image, content=content, user_id=user_id, profile_image=profile_image, like_count=0)
 
         return Response(status=200)
+
+
+class Profile(APIView):
+    def get(self, request):
+        email = request.session.get('email', None)
+        if email is None:
+            return render(request, "user/login.html")  # email이 없으면(로그아웃 상태면) 메인 안 보여주고 login 페이지만 보여줌
+
+        user = User.objects.filter(email=email).first()
+        if user is None:
+            return render(request, "user/login.html")  # 사용자 정보가 없어도 로그인 페이지만 보여줌(다시 로그인 시도해라)
+
+        return render(request, 'content/profile.html', context=dict(user=user))
