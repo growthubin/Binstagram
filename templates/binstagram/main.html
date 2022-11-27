@@ -104,7 +104,7 @@
                              src="{% get_media_prefix %}{{ feed.profile_image }}">
                     </div>
                     <div style="padding-left: 8px">
-                        {{ feed.user_id }}
+                        {{ feed.nickname }}
                     </div>
                 </div>
 
@@ -129,6 +129,9 @@
                 <!-- 아이콘 밑 -->
                 <div style="text-align: left; padding-left: 12px">
                     <div style="font-size: 14px"> 춘식이 <b>외 {{ feed.like_count }}명</b>이 좋아합니다.</div>
+                    {% for reply in feed.reply_list %}
+                        <div style="font-size: 14px"><b> {{ reply.nickname }} </b> {{ reply.content }}</div>
+                    {% endfor %}
                     <div style="font-size: 16px"><b>{{ feed.user_id }}</b> {{ feed.content }}</div>
                     <div style="font-size: 14px"><b> su.napshot </b> 나도 제주도 가고 싶다!</div>
                     <div style="font-size: 14px"><b> estonuncaeseso </b> 야호!!!</div>
@@ -355,16 +358,12 @@
         let file = files[0];
         let image = files[0].name;
         let content = $('#input_feed_content').val();
-        let user_id = "{{ user.nickname }}";
-        let profile_image = "{{ user.profile_image }}";
 
         let fd = new FormData();
 
         fd.append('file', file);
         fd.append('image', image);
         fd.append('content', content);
-        fd.append('user_id', user_id);
-        fd.append('profile_image', profile_image);
 
         // 비동기 처리
         $.ajax({
